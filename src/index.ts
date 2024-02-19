@@ -1,7 +1,10 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import "dotenv/config"
+import bodyParser from 'body-parser'
 import { engine } from 'express-handlebars'
+import "dotenv/config"
+
+import login_routes from './routes/login'
 
 const app = express()
 const PORT = 3000
@@ -12,6 +15,7 @@ const PORT = 3000
 
 app.use(cookieParser())
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 
@@ -25,10 +29,7 @@ app.set('views', 'views')
 
 // routes
 
-app.get('/', (req, res) => {
-    res.render('home')
-})
-
+app.use(login_routes)
 
 
 
