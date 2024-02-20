@@ -1,9 +1,20 @@
 <form method="post">
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email">
+    <input type="text" id="email" name="email" required>
     <br><br>
     <label for="password">Password:</label>
-    <input type="text" name="password" id="password">
+    <input type="text" name="password" id="password" required>
     <br><br>
+    {{#if message}}
+        <p>{{message}}</p>
+        <br>
+    {{/if}}
     <button type="submit">Login</button>
 </form>
+
+<style>
+    p {
+        color: rgb(255, 90, 90);
+        font-weight: bold;
+    }
+</style>

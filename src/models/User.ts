@@ -1,7 +1,13 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../helpers/db"
 
-class User extends Model {}
+class User extends Model {
+    declare uid: number;
+    declare name: string;
+    declare email: string;
+    declare password: string;
+    declare role: number;
+}
 
 User.init(
     {
@@ -31,7 +37,6 @@ User.init(
         modelName: "User"
     }
 )
-
 
 // User.sync({ alter: true })
 export default User

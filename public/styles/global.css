@@ -1,0 +1,24 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --light-green: rgb(218, 253, 218);
+}
+
+body {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+button {
+    padding: 5px 40px;
+    font-weight: 600;
+    background-color: rgb(218, 253, 218);
+    box-shadow: none;
+    outline: none;
+    border: 2px solid green;
+    border-radius: 5px;
+}
