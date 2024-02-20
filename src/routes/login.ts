@@ -32,16 +32,12 @@ router.post("/login", async (req, res) => {
         return;
     }
 
-    let privatekey = process.env.JWT_PRIVATE_KEY
-    if (!privatekey) return
-
-    let token = jwt.sign({ jwt: user.uid.toString() },privatekey, {
+    let token = jwt.sign({ uid: user.uid }, process.env.JWT_PRIVATE_KEY || "", {
         expiresIn: "1d"
     })
 
     res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 })
-    res.render("home")
-
+    res.redirect("/")
 })
 
 

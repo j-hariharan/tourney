@@ -5,6 +5,9 @@ import { engine } from 'express-handlebars'
 import "dotenv/config"
 
 import login_routes from './routes/login'
+import home_routes from './routes/home'
+
+import auth_middleware from './helpers/auth'
 
 
 const app = express()
@@ -18,6 +21,8 @@ app.use(cookieParser())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use(auth_middleware)
+
 
 
 
@@ -30,6 +35,7 @@ app.set('views', 'views')
 
 // routes
 
+app.use(home_routes)
 app.use(login_routes)
 
 
