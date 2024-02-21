@@ -1,1 +1,26 @@
-<h1>Hello {{name}}</h1>
+<h3>Logged in as {{name}}</h3>
+<h4>({{email}})</h4>
+<br><br>
+
+{{#if isAdmin}}
+    <a href="/settings" class="button">Tournament Settings</a>
+    <a href="/users" class="button">Manage Organizers</a>
+{{/if}}
+
+{{#if isArbiter}}
+    <a href="/games" class="button">Games</a>
+{{/if}}
+
+{{#if isOrganizer}}
+    <a href="/players" class="button">Players</a>
+{{/if}}
+
+
+<style>
+    a {
+        display: block;
+        margin: 20px 0px;
+        width: 300px;
+        text-align: center;
+    }
+</style>
