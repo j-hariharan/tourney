@@ -1,10 +1,8 @@
-import User from "./src/models/User"
+import Config from './src/models/Config'
 
 async function fetchData () {
-    let user = await User.findAll()
-    user.forEach(u => console.log(u.toJSON()))
-
-    // await User.update({ role: 0 }, { where: { uid: 2 }})
+    let config = await Config.findOne()
+    console.log(config?.toJSON())
 }
 
 fetchData()

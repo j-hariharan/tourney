@@ -24,3 +24,14 @@ button, .button {
     border: 2px solid green;
     border-radius: 5px;
 }
+
+
+.error {
+    color: rgb(255, 90, 90);
+    font-weight: bold;
+}
+
+.success {
+    color: rgb(44, 167, 44);
+    font-weight: bold;
+}

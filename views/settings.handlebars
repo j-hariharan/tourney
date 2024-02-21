@@ -1,0 +1,39 @@
+<h3>Tournament Settings</h3>
+<br><br>
+
+<form method="POST">
+    <label for="max_games">Max Games Per Pair:</label>
+    <input type="number" name="max_games" id="max_games" required value="{{max_games_per_pair}}">
+    <br><br>
+    <label for="wait">Wait Before Matching (mins):</label>
+    <input type="number" name="wait" id="wait" required value="{{wait_before_matching}}">
+    <br><br>
+    <label for="win">Points for win:</label>
+    <input type="number" name="win" id="win" required value="{{win}}">
+    <br><br>
+    <label for="loss">Points for loss:</label>
+    <input type="number" name="loss" id="loss" required value="{{loss}}">
+    <br><br>
+    <label for="draw">Points for draw:</label>
+    <input type="text" name="draw" id="draw" required value="{{draw}}">
+    <br><br>
+    {{#if success}}
+        <p class="success">{{success}}</p>
+        <br>
+    {{/if}}
+    {{#if error}}
+        <p class="error">{{error}}</p>
+        <br>
+    {{/if}}
+    <button type="submit">Update</button>
+</form>
+
+<script>
+    let form = document.querySelector("form")
+
+    form.addEventListener("submit", e => {
+        let response = confirm("Are you sure you want to update the tournament settings?")
+
+        if (!response) e.preventDefault()
+    })
+</script>
