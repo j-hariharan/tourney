@@ -1,8 +1,12 @@
 import Config from './src/models/Config'
+import User from './src/models/User'
 
 async function fetchData () {
-    let config = await Config.findOne()
-    console.log(config?.toJSON())
+    await User.create({
+        name: "def",
+        email: "def@email",
+        password: "def"
+    })
 }
 
 fetchData()

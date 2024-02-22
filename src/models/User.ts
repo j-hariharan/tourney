@@ -19,6 +19,14 @@ class User extends Model {
     get isAdmin () {
         return this.role == 0
     }
+
+    get roleText () {
+        if (this.role == 0) return "Admin"
+        else if (this.role == 1) return "Arbiter"
+        else if (this.role == 2) return "Organizer"
+        else if (this.role == 3) return "Organizer+Arbiter"
+        else return "None"
+    }
 }
 
 User.init(

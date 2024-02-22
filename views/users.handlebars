@@ -1,0 +1,87 @@
+<h3>Users</h3>
+<br><br>
+{{#if message}}
+    <p class="success">{{message}}</p>
+    <br><br>
+{{/if}}
+
+{{#each users}}
+    <div class="usercard">
+        <div class="left">
+            <h3>{{name}} {{#if isCurrentUser}} (you) {{/if}}</h3>
+            <p>{{email}}</p>
+            <p>Current role: {{roleText}}</p>
+        </div>
+
+        {{#unless isCurrentUser}}
+            <div class="right">
+                <form method="post" onsubmit="handleUpdate(event, '{{name}}')">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="uid" value="{{this.uid}}">
+                    <select name="role" id="role">
+                        <option value="-1">None</option>
+                        <option value="0">Admin</option>
+                        <option value="1">Arbiter</option>
+                        <option value="2">Organizer</option>
+                        <option value="3">Arbiter &amp; Organizer</option>
+                    </select>
+                    <br>
+                    <button class="small" type="submit">Update</button>
+                </form>
+                <form method="post" onsubmit="handleDelete(event, '{{name}}')">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="uid" value="{{this.uid}}">
+                    <button class="small" type="submit">Delete User</button>
+                </form>
+            </div>
+        {{/unless}}
+    </div>
+{{/each}}
+
+<script>
+    function getRoleText (role) {
+        if (role == 0) return "Admin"
+        else if (role == 1) return "Arbiter"
+        else if (role == 2) return "Organizer"
+        else if (role == 3) return "Organizer+Arbiter"
+        else return "None"
+    }
+
+    function handleUpdate (e, name) {
+        let role = e.target.querySelector("select").value
+        let roleText = getRoleText(role)
+        let response = confirm(`Are you sure you want to change the role of ${name} to ${roleText}?`)
+
+        if (!response) e.preventDefault()
+    }
+
+    function handleDelete (e, name) {
+        let response = confirm(`Are you sure you want to delete the user ${name}?`)
+
+        if (!response) e.preventDefault()
+    }
+</script>
+
+
+<style>
+    .usercard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0px;
+        border-bottom: 2px dashed #aaaaaa;
+    }
+
+    .right {
+
+    }
+
+    form {
+        margin: 15px 0px;
+        text-align: right;
+    }
+
+    form select {
+        margin-bottom: 5px;
+    }
+</style>
