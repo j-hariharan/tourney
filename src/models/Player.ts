@@ -21,5 +21,4 @@ Player.init(
     }
 )
 
-// Player.sync({ alter: true })
 export default Player

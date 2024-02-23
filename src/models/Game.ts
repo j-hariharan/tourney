@@ -5,22 +5,6 @@ import Player from "./Player"
 
 class Game extends Model {}
 
-let uid = () => ({
-    type: DataTypes.INTEGER,
-    references: {
-        model: User,
-        key: "uid"
-    }
-})
-
-let pid = () => ({
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: Player,
-        key: "pid"
-    }
-})
 
 Game.init(
     {
@@ -29,17 +13,10 @@ Game.init(
             autoIncrement: true,
             primaryKey: true
         },
-
-        white: pid(),
-        black: pid(),
         startTime: DataTypes.DATE,
         endTime: DataTypes.DATE,
         winner: DataTypes.INTEGER,
         outcome: DataTypes.STRING,
-        startedBy: uid(),
-        resultDeclaredBy: uid(),
-        prevOrganizerWhite: uid(),
-        prevOrganizerBlack: uid(),
 
         status: {
            type: DataTypes.INTEGER,
@@ -53,5 +30,16 @@ Game.init(
     }
 )
 
-// Game.sync({ alter: true })
+
+Game.belongsTo(Player, { as: "white", foreignKey: {allowNull: false} })
+Game.belongsTo(Player, { as: "black", foreignKey: {allowNull: false} })
+Player.hasMany(Game)
+
+
+Game.belongsTo(User, { as: "startedBy", })
+Game.belongsTo(User, { as: "resultDeclaredBy" })
+Game.belongsTo(User, { as: "prevArbiterWhite" })
+Game.belongsTo(User, { as: "prevArbiterBlack" })
+User.hasMany(Game)
+
 export default Game

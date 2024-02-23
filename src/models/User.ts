@@ -59,5 +59,4 @@ User.init(
     }
 )
 
-// User.sync({ alter: true })
 export default User

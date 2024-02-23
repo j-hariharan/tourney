@@ -1,12 +1,10 @@
-import Config from './src/models/Config'
-import User from './src/models/User'
+import Game from './src/models/Game'
+import Player from './src/models/Player'
 
 async function fetchData () {
-    await User.create({
-        name: "def",
-        email: "def@email",
-        password: "def"
-    })
+    // let player = 
+
+    // Game.sync({ force: true })
 }
 
 fetchData()

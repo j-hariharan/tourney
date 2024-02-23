@@ -38,5 +38,4 @@ Config.init(
     }
 )
 
-// Config.sync({ force: true })
 export default Config
