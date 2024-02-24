@@ -40,3 +40,10 @@ button.small, .button.small {
     color: rgb(44, 167, 44);
     font-weight: bold;
 }
+
+
+.disabled {
+    color: rgb(255, 90, 90);
+    font-style: italic;    
+    font-size: 90%;
+}

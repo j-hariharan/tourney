@@ -8,6 +8,7 @@ import login_routes from './routes/login'
 import home_routes from './routes/home'
 import settings_routes from './routes/settings'
 import users_routes from './routes/users'
+import player_routes from './routes/players'
 
 import auth_middleware from './helpers/auth'
 
@@ -41,6 +42,7 @@ app.use(home_routes)
 app.use(login_routes)
 app.use(settings_routes)
 app.use(users_routes)
+app.use(player_routes)
 
 
 

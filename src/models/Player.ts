@@ -1,7 +1,11 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../helpers/db"
 
-class Player extends Model {}
+class Player extends Model {
+    declare pid: number;
+    declare name: string;
+    declare disabled: boolean;
+}
 
 Player.init(
     {
@@ -13,6 +17,10 @@ Player.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        disabled: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     },
     {

@@ -1,0 +1,52 @@
+<h3>Players</h3>
+<br><br>
+{{#if message}}
+    <p class="success">{{message}}</p>
+    <br><br>
+{{/if}}
+
+{{#each players}}
+    <div class="playercard">
+        <div class="left">
+            <h3>{{name}} {{#if disabled}} <span class="disabled">(disabled)</span> {{/if}}</h3>
+        </div>
+        {{#if disabled}}
+            <form method="post" onsubmit="handleEnable(event, '{{name}}')">
+                <input type="hidden" name="action" value="enable">
+                <input type="hidden" name="pid" value="{{pid}}">
+                <button class="small" type="submit">Enable Player</button>
+            </form>
+        {{else}}
+            <form method="post" onsubmit="handleDisable(event, '{{name}}')">
+                <input type="hidden" name="action" value="disable">
+                <input type="hidden" name="pid" value="{{pid}}">
+                <button class="small" type="submit">Disable Player</button>
+            </form>
+        {{/if}}
+    </div>
+{{/each}}
+
+<script>
+    function handleDisable (e, name) {
+        let response = confirm(`Are you sure you want to disable the player ${name}?`)
+
+        if (!response) e.preventDefault()
+    }
+
+    function handleEnable (e, name) {
+        let response = confirm(`Are you sure you want to enable the player ${name}?`)
+
+        if (!response) e.preventDefault()
+    }
+</script>
+
+
+<style>
+    .playercard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 5px;
+        border-bottom: 2px dashed #aaaaaa;
+    }
+</style>
