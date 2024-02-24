@@ -34,6 +34,32 @@ router.post("/players", async (req, res) => {
 })
 
 
+router.get("/players/add", (req, res) => {
+    res.render("addplayer")
+})
+
+router.post("/players/add", async (req, res) => {
+    let name = req.body.name
+
+    if (!name) {
+        res.render("addplayer", { message: "Please enter a name" })
+        return
+    }
+
+    let playersFound = await Player.count({
+        where: { name }
+    })
+    
+    if (playersFound > 0) {
+        res.render("addplayer", { message: "Player with the same name already exists. Please enter a different name."})
+        return
+    }
+
+    let user = await Player.create({ name })
+
+    res.redirect("/players")
+})
+
 
 async function renderPlayers (res: Response, options: Record<string, string> = {}) {
     let players = await Player.findAll({ 

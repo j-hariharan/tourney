@@ -1,0 +1,13 @@
+<h3>Add player</h3>
+<br><br>
+
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br><br><br>
+    {{#if message}}
+        <p class="error">{{message}}</p>
+        <br>
+    {{/if}}
+    <button type="submit">Add Player</button>
+</form>
