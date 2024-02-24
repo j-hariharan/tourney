@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { Response, Router } from "express"
 import User from "../models/User"
 import jwt from 'jsonwebtoken'
 
@@ -32,13 +32,16 @@ router.post("/login", async (req, res) => {
         return;
     }
 
-    let token = jwt.sign({ uid: user.uid }, process.env.JWT_PRIVATE_KEY || "", {
+    handleLogin(res, user.uid)
+    res.redirect("/")
+})
+
+export function handleLogin (res: Response, uid: number) {
+    let token = jwt.sign({ uid }, process.env.JWT_PRIVATE_KEY || "test", {
         expiresIn: "1d"
     })
 
     res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 })
-    res.redirect("/")
-})
-
+}
 
 export default router

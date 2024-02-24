@@ -1,4 +1,7 @@
 <form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br><br>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
     <br><br>
@@ -9,7 +12,7 @@
         <p class="error">{{message}}</p>
         <br>
     {{/if}}
-    <button type="submit">Login</button>
+    <button type="submit">Register</button>
     <br><br>
-    <p>New user? <a href="/register">Register here</a>.</p>
+    <p>Existing user? <a href="/login">Login here</a>.</p>
 </form>

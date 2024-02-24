@@ -10,8 +10,8 @@ interface CookieJwtPayload {
 export default async function auth_middleware (req: Request, res: Response, next: NextFunction) {
     let token = req.cookies['token']
 
-    if (req.path == "/login") {
-        res.clearCookie("token")
+    if (req.path == "/login" || req.path == "/register") {
+        // res.clearCookie("token")
         next()
         return
     }
@@ -22,7 +22,7 @@ export default async function auth_middleware (req: Request, res: Response, next
     }
 
     try {
-        let payload = jwt.verify(token, process.env.JWT_PRIVATE_KEY || "") as CookieJwtPayload
+        let payload = jwt.verify(token, process.env.JWT_PRIVATE_KEY || "test") as CookieJwtPayload
         let uid = payload.uid
         let user = await User.findByPk(uid)
 
