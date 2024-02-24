@@ -6,6 +6,9 @@
 
 :root {
     --light-green: rgb(218, 253, 218);
+    --red-text: rgb(255, 90, 90);
+    --green-text: rgb(44, 167, 44);
+    --orange-text: rgb(255, 164, 90);
 }
 
 body {

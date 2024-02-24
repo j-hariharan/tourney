@@ -1,0 +1,75 @@
+<h3>Games</h3>
+<br><br>
+{{#if message}}
+    <p class="success">{{message}}</p>
+    <br><br>
+{{/if}}
+
+{{#each games}}
+    <div class="gamecard {{#unless priority}}highlight{{/unless}}">
+        <div class="left">
+            <a href="">#{{gid}}</a>
+            <div class="details">
+                <p>{{white.name}}</p>
+                <p>vs</p>
+                <p>{{black.name}}</p>
+                <p class="result {{color}}">{{result}}</p>
+            </div>
+        </div>
+        <div class="right">
+            {{#if startedBy}}
+                <p>S: {{startedBy.name}}</p>
+            {{/if}}
+            {{#if resultDeclaredBy}}
+                <p>R: {{resultDeclaredBy.name}}</p>
+            {{/if}}
+            {{#each associated}}
+                <p>A: {{name}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/each}}
+
+
+
+
+
+
+<style>
+    .gamecard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 10px;
+        border-bottom: 2px dashed #aaaaaa;
+        border-radius: 5px;
+        max-width: 600px;
+    }
+
+    .gamecard.highlight {
+        background-color: var(--light-green);
+    }
+
+    .left {
+        display: flex;
+        gap: 10px;
+    }
+
+    p {
+        text-align: center;
+    }
+
+    .result {
+        font-weight: 600;
+    }
+
+    .red {
+        color: var(--red-text);
+    }
+    .orange {
+        color: var(--orange-text);
+    }
+    .green {
+        color: var(--green-text);
+    }
+</style>
