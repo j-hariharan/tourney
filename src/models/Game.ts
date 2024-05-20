@@ -18,6 +18,13 @@ class Game extends Model {
     declare prevArbiterWhite?: User;
     declare prevArbiterBlack?: User;
 
+    declare blackPid: number;
+    declare whitePid: number;
+    declare startedByUid?: number;
+    declare resultDeclaredByUid?: number;
+    declare prevArbiterWhiteUid?: number;
+    declare prevArbiterBlackUid?: number;
+
 
     get isScheduled () { return this.status == 0 }
     get isStarted () { return this.status == 1 }
