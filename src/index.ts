@@ -11,6 +11,7 @@ import settings_routes from './routes/settings'
 import users_routes from './routes/users'
 import players_routes from './routes/players'
 import games_routes from './routes/games'
+import game_schedule_routes from './routes/schedule'
 
 
 import auth_middleware from './helpers/auth'
@@ -48,6 +49,7 @@ app.use(settings_routes)
 app.use(users_routes)
 app.use(players_routes)
 app.use(games_routes)
+app.use(game_schedule_routes)
 
 
 

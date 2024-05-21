@@ -46,8 +46,6 @@ async function renderGames (res: Response, currentUid: number = -1, options: Rec
             priority = 7
         }
 
-        console.log(priority)
-
 
         return {
             gid: g.gid,
