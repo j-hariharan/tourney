@@ -15,6 +15,7 @@ async function createAdminUser () {
     await Config.sync()
 
     await User.create({ name: ADMIN_USER_NAME, email: ADMIN_USER_EMAIL, password: ADMIN_USER_PASSWORD, role: 0 })
+    await Config.create()
 }
 
 createAdminUser()
