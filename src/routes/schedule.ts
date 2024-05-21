@@ -3,6 +3,8 @@ import Player from "../models/Player"
 import { Op } from "sequelize"
 import sequelize from "../helpers/db"
 import Game from "../models/Game"
+import { calculateScores } from "../helpers/getScores"
+import Score from "../types/Score"
 
 const router = Router()
 
@@ -69,20 +71,9 @@ router.post("/games/schedule", async (req, res) => {
         for (let [j, stat] of stats)
             if (stat.played == 0) stat.lastPlayed = Infinity
 
+    let scores = await calculateScores(games)
 
-    let playerPreference = new Map()
-    pids.map(pid => {
-        let preference = []
-        let stats = new Map(playerStats.get(pid))
-
-        // while (stats.size > 0) {
-        //     let minIndex = -1
-        //     for (let [i, stat] of stats)
-        //         if (stat.played == stats.get(minIndex)?.played)
-
-        // }
-        return
-    })
+    let playerData: { pid: number, score: Score, stats: Map<number,{played: number, lastPlayed: number}>}[] = []
 })
 
 
