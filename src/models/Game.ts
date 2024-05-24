@@ -74,13 +74,17 @@ Game.init(
 
 Game.belongsTo(Player, { as: "white", foreignKey: {allowNull: false} })
 Game.belongsTo(Player, { as: "black", foreignKey: {allowNull: false} })
-Player.hasMany(Game)
+Player.hasMany(Game, { foreignKey: "whitePid" })
+Player.hasMany(Game, { foreignKey: "blackPid" })
 
 
 Game.belongsTo(User, { as: "startedBy", })
 Game.belongsTo(User, { as: "resultDeclaredBy" })
 Game.belongsTo(User, { as: "prevArbiterWhite" })
 Game.belongsTo(User, { as: "prevArbiterBlack" })
-User.hasMany(Game)
+User.hasMany(Game, { foreignKey: "startedByUid"})
+User.hasMany(Game, { foreignKey: "resultDeclaredByUid"})
+User.hasMany(Game, { foreignKey: "prevArbiterWhiteUid"})
+User.hasMany(Game, { foreignKey: "prevArbiterBlackUid"})
 
 export default Game
