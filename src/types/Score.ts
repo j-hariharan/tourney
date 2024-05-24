@@ -30,7 +30,7 @@ export default class Score implements ScoreType {
     black = { played: 0, won: 0, lost: 0, drew: 0 }
     white = { played: 0, won: 0, lost: 0, drew: 0 }
 
-    constructor (public config: { win: number, loss: number, draw: number }) {}
+    constructor (public config: { win: number, loss: number, draw: number } = {win:0, loss: 0, draw: 0}) {}
 
     recordGame (game: Game, color: number) {
         let colorScore
