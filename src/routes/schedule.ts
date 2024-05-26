@@ -1,13 +1,13 @@
 import { Router } from "express"
-import Player from "../models/Player"
 import { Op } from "sequelize"
-import sequelize from "../helpers/db"
 import Game from "../models/Game"
 import { calculateScores } from "../helpers/getScores"
 import Score from "../types/Score"
 import PlayerData from "../types/PlayerData"
 import PlayerStats from "../types/PlayerStats"
 import match from "../helpers/schedule/match"
+import getFreePlayers from "../helpers/schedule/getFreePlayers"
+import getPairs from "../helpers/schedule/getPairs"
 
 const router = Router()
 
@@ -25,6 +25,8 @@ router.get("/games/schedule", async (req, res) => {
 
 router.post("/games/schedule", async (req, res) => {
     let players = await getFreePlayers()
+    let playersMap = new Map(players.map(p => [p.pid, p]))
+    
     let pids = players.map(p => p.pid)
 
     let games = await Game.findAll({
@@ -95,6 +97,7 @@ router.post("/games/schedule", async (req, res) => {
 
         playerData.push({
             pid,
+            name: playersMap.get(pid)!.name,
             pair: 0,
             color: 0,
             score: scores.get(pid) || new Score(),
@@ -108,31 +111,12 @@ router.post("/games/schedule", async (req, res) => {
     let result = match(playerData, 1)
 
     if (result) {
-        for (let i of playerData) {
-            console.log(`${i.pid}:${players.find(p => p.pid == i.pid)?.name}\t${i.score.points}\t${i.pair}\t${i.color == 1 ? "white" : "black"}`)
-        }
+        let pairs = getPairs(playerData)
+        res.json(pairs)
+    } else {
+        res.status(201).send("nope")
     }
 })
 
-
-
-async function getFreePlayers () {
-    return await Player.findAll({
-        where: {
-            pid: {
-                [Op.notIn]: sequelize.literal(`(
-                    (
-                        SELECT whitePid from Games where status in (0,1)
-                    )
-                    UNION
-                    (
-                        SELECT blackPid from Games where status in (0,1)
-                    )
-                )`),
-            },
-            disabled: false
-        }
-    })
-}
 
 export default router
