@@ -5,11 +5,48 @@ const router = Router()
 
 
 router.use("/games", (req, res, next) => {
-    next()
+    if (!req.user?.isArbiter && !req.user?.isOrganizer) {
+        res.redirect("/")
+    } else {
+        next()
+    }
 })
 
 router.get("/games", async (req, res) => {
     renderGames(res, req.user?.uid)
+})
+
+router.get("/games/:id", async (req, res) => {
+    let game = await Game.findByPk(req.params.id, { include: ['white', 'black', "startedBy", "resultDeclaredBy", "prevArbiterWhite", "prevArbiterBlack"]})
+
+    if (game == null) {
+        res.redirect("/games")
+        return
+    }
+
+    let color = ""
+    if (game.isCancelled) color = "red"
+    else if (game.isScheduled) color = "orange"
+    else color = "green"
+
+    let data = {
+        gid: game.gid,
+        white: {
+            pid: game.whitePid,
+            name: game.white.name
+        },
+        black: {
+            pid: game.blackPid,
+            name: game.black.name
+        },
+        result: game.resultString,
+        color,
+        isScheduled: game.isScheduled,
+        isStarted: game.isStarted
+
+    }
+
+    res.render("game", data);
 })
 
 

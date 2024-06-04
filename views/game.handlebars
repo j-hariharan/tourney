@@ -1,0 +1,142 @@
+<div class="gamecard">
+    <div class="left">
+        <div class="details">
+            <p class="gid">(#{{gid}})</p>
+            <div class="players">
+                <p>{{white.name}}</p>
+                <span>vs</span>
+                <p>{{black.name}}</p>
+            </div>
+            <p class="result {{color}}">{{result}}</p>
+        </div>
+    </div>
+    <div class="right">
+        {{#if startedBy}}
+            <p>S: {{startedBy.name}}</p>
+        {{/if}}
+        {{#if resultDeclaredBy}}
+            <p>R: {{resultDeclaredBy.name}}</p>
+        {{/if}}
+        {{#each associated}}
+            <p>A: {{name}}</p>
+        {{/each}}
+    </div>
+
+    <div class="actions">
+        {{#if isScheduled}}
+            <div class="buttons">
+                <form method="POST">
+                    <input type="hidden" name="action" value="start">
+                    <button type="submit">Start Game</button>
+                </form>
+                <form method="post">
+                    <input type="hidden" name="action" value="cancel">
+                    <button type="submit">Cancel Game</button>
+                </form>
+            </div>
+        {{/if}}
+        {{#if isStarted}}
+            <form method="post" onsubmit="handleSubmit(event)">
+                <input type="hidden" name="action" value="result">
+                <h4>Winner</h4>
+                <br>
+                <input type="radio" name="winner" id="white" value="white">
+                <label for="white">white</label>
+                <br>
+                <input type="radio" name="winner" id="black" value="black">
+                <label for="black">black</label>
+                <br>
+                <input type="radio" name="winner" id="draw" value="draw" checked>
+                <label for="draw">draw</label>
+                <br><br>
+                <select name="outcome" id="">
+                    <option value="checkmate">checkmate</option>
+                    <option value="resignation">resignation</option>
+                    <option value="timeout">timeout</option>
+                    <option value="agreement">agreement</option>
+                    <option value="stalemate">stalemate</option>
+                    <option value="repetition">repetition</option>
+                    <option value="50move">50-move</option>
+                    <option value="insufficient">insufficient material</option>
+                </select>
+                <br><br>
+                <button type="submit">Declare Result</button>
+            </form>
+        {{/if}}
+    </div>
+</div>
+
+
+
+<script>
+    function handleSubmit (e) {
+        let winner
+        if (e.target.winner.value == "white") winner = "{{white.name}} wins"
+        else if (e.target.winner.value == "black") winner = "{{black.name}} wins"
+        else winner = "draw"
+
+        let response = confirm(`Are you sure you want to decalre the result as ${winner} (by ${e.target.outcome.value})?`)
+
+        if (!response) e.preventDefault()
+    }
+</script>
+
+
+
+<style>
+    .details {
+        width: min-content;
+        border: 1px dashed #aaaaaa;
+        border-radius: 5px;
+        padding: 50px;
+        position: relative;
+    }
+
+    .details .gid {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
+    }
+
+    .details .players {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .details .players p {
+        font-size: 28px;
+        font-weight: 600;
+    }
+    
+    .details .players span {
+        font-size: 20px;
+    }
+
+    .details .result {
+        margin: 10px 0px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .red {
+        color: var(--red-text);
+    }
+    .orange {
+        color: var(--orange-text);
+    }
+    .green {
+        color: var(--green-text);
+    }
+
+
+    .actions {
+        margin-top: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+    }
+</style>
