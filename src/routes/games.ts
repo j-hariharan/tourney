@@ -17,36 +17,39 @@ router.get("/games", async (req, res) => {
 })
 
 router.get("/games/:id", async (req, res) => {
-    let game = await Game.findByPk(req.params.id, { include: ['white', 'black', "startedBy", "resultDeclaredBy", "prevArbiterWhite", "prevArbiterBlack"]})
+    renderGame(res, req.params.id)
+})
 
+router.post("/games/:id", async (req, res) => {
+    let { action, winner, outcome } = req.body
+    winner = parseInt(winner)
+    
+    let gid = req.params.id
+
+    let game = await Game.findByPk(gid)
     if (game == null) {
         res.redirect("/games")
         return
     }
 
-    let color = ""
-    if (game.isCancelled) color = "red"
-    else if (game.isScheduled) color = "orange"
-    else color = "green"
-
-    let data = {
-        gid: game.gid,
-        white: {
-            pid: game.whitePid,
-            name: game.white.name
-        },
-        black: {
-            pid: game.blackPid,
-            name: game.black.name
-        },
-        result: game.resultString,
-        color,
-        isScheduled: game.isScheduled,
-        isStarted: game.isStarted
-
+    if (action == "start" || action == "cancel") {
+        if (game.status == 0) {
+            await game.update({ status: action == "start" ? 1 : 2 })
+            return renderGame(res, gid)
+        } else {
+            res.status(403).send("Cannot perform action")
+            return
+        }
     }
 
-    res.render("game", data);
+    else if (action == "result") {
+        if (game.status == 1 && [0,1,2].includes(winner)) {
+            await game.update({ status: 3, winner, resultDeclaredByUid: req.user?.uid, outcome })
+            return renderGame(res, gid)
+        } else {
+            res.status(403).send("Cannot perform action")
+        }
+    }
 })
 
 
@@ -131,6 +134,39 @@ async function renderGames (res: Response, currentUid: number = -1, options: Rec
 
     res.render("games", { games: gameData, ...options })
 }
+
+ async function renderGame (res: Response, id: string, options: Record<string, string> = {}) {
+    let game = await Game.findByPk(id, { include: ['white', 'black', "startedBy", "resultDeclaredBy", "prevArbiterWhite", "prevArbiterBlack"]})
+
+    if (game == null) {
+        res.redirect("/games")
+        return
+    }
+
+    let color = ""
+    if (game.isCancelled) color = "red"
+    else if (game.isScheduled) color = "orange"
+    else color = "green"
+
+    let data = {
+        gid: game.gid,
+        white: {
+            pid: game.whitePid,
+            name: game.white.name
+        },
+        black: {
+            pid: game.blackPid,
+            name: game.black.name
+        },
+        result: game.resultString,
+        color,
+        isScheduled: game.isScheduled,
+        isStarted: game.isStarted
+
+    }
+
+    res.render("game", { ...data, ...options });
+ }
 
 
 export default router

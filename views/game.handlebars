@@ -40,13 +40,13 @@
                 <input type="hidden" name="action" value="result">
                 <h4>Winner</h4>
                 <br>
-                <input type="radio" name="winner" id="white" value="white">
+                <input type="radio" name="winner" id="white" value=1>
                 <label for="white">white</label>
                 <br>
-                <input type="radio" name="winner" id="black" value="black">
+                <input type="radio" name="winner" id="black" value=2>
                 <label for="black">black</label>
                 <br>
-                <input type="radio" name="winner" id="draw" value="draw" checked>
+                <input type="radio" name="winner" id="draw" value=0 checked>
                 <label for="draw">draw</label>
                 <br><br>
                 <select name="outcome" id="">
@@ -71,8 +71,8 @@
 <script>
     function handleSubmit (e) {
         let winner
-        if (e.target.winner.value == "white") winner = "{{white.name}} wins"
-        else if (e.target.winner.value == "black") winner = "{{black.name}} wins"
+        if (e.target.winner.value == 1) winner = "{{white.name}} wins"
+        else if (e.target.winner.value == 2) winner = "{{black.name}} wins"
         else winner = "draw"
 
         let response = confirm(`Are you sure you want to decalre the result as ${winner} (by ${e.target.outcome.value})?`)
