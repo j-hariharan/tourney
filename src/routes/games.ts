@@ -34,7 +34,7 @@ router.post("/games/:id", async (req, res) => {
 
     if (action == "start" || action == "cancel") {
         if (game.status == 0) {
-            await game.update({ status: action == "start" ? 1 : 2 })
+            await game.update({ status: action == "start" ? 1 : 2, startedByUid: action == "start" ? req.user?.uid : null })
             return renderGame(res, gid)
         } else {
             res.status(403).send("Cannot perform action")
