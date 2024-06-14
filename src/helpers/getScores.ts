@@ -28,11 +28,3 @@ export async function calculateScores (games: Game[]) {
 
     return scores
 }
-
-
-function getPopulateScore (config: any) {
-    let { win, loss, draw } = config
-    return function populateScore (s: Score) {
-        s.points = win*s.won + loss*s.lost + draw*s.drew
-    }
-}

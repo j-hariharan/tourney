@@ -34,7 +34,7 @@ router.post("/games/:id", async (req, res) => {
 
     if (action == "start" || action == "cancel") {
         if (game.status == 0) {
-            await game.update({ status: action == "start" ? 1 : 2, startedByUid: action == "start" ? req.user?.uid : null })
+            await game.update({ status: action == "start" ? 1 : 2, startedByUid: action == "start" ? req.user?.uid : null, startTime: new Date() })
             return renderGame(res, gid)
         } else {
             res.status(403).send("Cannot perform action")
@@ -44,7 +44,7 @@ router.post("/games/:id", async (req, res) => {
 
     else if (action == "result") {
         if (game.status == 1 && [0,1,2].includes(winner)) {
-            await game.update({ status: 3, winner, resultDeclaredByUid: req.user?.uid, outcome })
+            await game.update({ status: 3, winner, resultDeclaredByUid: req.user?.uid, outcome, endTime: new Date() })
             return renderGame(res, gid)
         } else {
             res.status(403).send("Cannot perform action")

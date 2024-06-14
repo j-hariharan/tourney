@@ -1,0 +1,73 @@
+<h3>Scoreboard</h3>
+<br><br>
+
+<table>
+    <tr>
+        <th>Player</th>
+        <th>Score</th>
+        <th>Overall</th>
+        <th>White</th>
+        <th>Black</th>
+    </tr>
+
+    {{#each players}}
+    <tr>
+        <td>{{name}} {{#if disabled}} <span class="disabled">(disabled) </span>{{/if}}</td>
+
+        <td>{{score.points}}</td>
+
+        <td class="stats">{{score.played}} = <span class="won">{{score.won}}</span> | <span class="drew">{{score.drew}}</span> | <span class="lost">{{score.lost}}</span></td>
+
+        {{#with score.white}}
+            <td class="stats">{{played}} = <span class="won">{{won}}</span> | <span class="drew">{{drew}}</span> | <span class="lost">{{lost}}</span></td>
+        {{/with}}
+
+        {{#with score.black}}
+            <td class="stats">{{played}} = <span class="won">{{won}}</span> | <span class="drew">{{drew}}</span> | <span class="lost">{{lost}}</span></td>
+        {{/with}}
+    </tr>
+    {{/each}}
+</table>
+
+<script>
+    function handleDisable (e, name) {
+        let response = confirm(`Are you sure you want to disable the player ${name}?`)
+
+        if (!response) e.preventDefault()
+    }
+
+    function handleEnable (e, name) {
+        let response = confirm(`Are you sure you want to enable the player ${name}?`)
+
+        if (!response) e.preventDefault()
+    }
+</script>
+
+
+<style>
+    .won {
+        color: var(--green-text);
+    }
+
+    .drew {
+        color: #888888;
+    }
+
+    .lost {
+        color: var(--red-text);
+    }
+
+    .stats {
+        font-weight: 600;
+    }
+
+    td, th, table {
+        border: 2px dotted #888888;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 20px 20px;
+        text-align: center;
+    }
+</style>

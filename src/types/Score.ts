@@ -1,6 +1,6 @@
 import Game from "../models/Game"
 
-interface ScoreType {
+export interface ScoreType {
     played: number
     won: number
     lost: number
